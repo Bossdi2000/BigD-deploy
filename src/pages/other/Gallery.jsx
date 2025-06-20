@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 
 // Static gallery items
 const galleryItems = [
@@ -366,117 +366,117 @@ const galleryItems = [
       ],
     },
   },
-];
+]
 
 const Gallery = () => {
-  const [items, setItems] = useState(galleryItems);
-  const [expanded, setExpanded] = useState(Array(galleryItems.length).fill(false));
-  const [startIndex, setStartIndex] = useState(0);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchMessage, setSearchMessage] = useState("");
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const navigate = useNavigate();
-  const itemRefs = useRef({});
+  const [items, setItems] = useState(galleryItems)
+  const [expanded, setExpanded] = useState(Array(galleryItems.length).fill(false))
+  const [startIndex, setStartIndex] = useState(0)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchMessage, setSearchMessage] = useState("")
+  const [isMobile, setIsMobile] = useState(false)
+  const navigate = useNavigate()
+  const itemRefs = useRef({})
 
   // Detect screen size
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768);
-    };
+      setIsMobile(window.innerWidth <= 768)
+    }
 
     // Initial check
-    handleResize();
+    handleResize()
 
     // Add event listener
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize)
 
     // Cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   // Safeguard startIndex
   useEffect(() => {
     if (startIndex >= items.length) {
-      setStartIndex(0);
+      setStartIndex(0)
     } else if (startIndex < 0) {
-      setStartIndex(Math.max(0, items.length - (isSmallScreen ? 1 : 3)));
+      setStartIndex(Math.max(0, items.length - (isMobile ? 1 : 3)))
     }
-  }, [startIndex, items.length, isSmallScreen]);
+  }, [startIndex, items.length, isMobile])
 
   // Function to extract Twitter handle from description
   const getTwitterHandle = (description) => {
-    const match = description.match(/@([a-zA-Z0-9_]+)/);
-    return match ? match[1] : null;
-  };
+    const match = description.match(/@([a-zA-Z0-9_]+)/)
+    return match ? match[1] : null
+  }
 
   // Handle search input change
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setSearchMessage("");
-  };
+    setSearchQuery(e.target.value)
+    setSearchMessage("")
+  }
 
   // Perform search and scroll to user
   const handleSearch = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!searchQuery.trim()) {
-      setSearchMessage("Please enter a username to search.");
-      return;
+      setSearchMessage("Please enter a username to search.")
+      return
     }
 
     const matchedItem = items.find(
       (item) =>
         item.bio.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.bio.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.bio.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+        item.bio.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    )
 
     if (matchedItem) {
-      const matchedIndex = items.indexOf(matchedItem);
-      setStartIndex(isSmallScreen ? matchedIndex : Math.floor(matchedIndex / 3) * 3);
+      const matchedIndex = items.indexOf(matchedItem)
+      setStartIndex(isMobile ? matchedIndex : Math.floor(matchedIndex / 3) * 3)
       setTimeout(() => {
         if (itemRefs.current[matchedItem.id]) {
           itemRefs.current[matchedItem.id].scrollIntoView({
             behavior: "smooth",
             block: "center",
-          });
+          })
         }
-      }, 100);
-      setSearchMessage("");
+      }, 100)
+      setSearchMessage("")
     } else {
-      setSearchMessage("No user found with that name, role, or description.");
+      setSearchMessage("No user found with that name, role, or description.")
     }
-  };
+  }
 
   // Toggle "See More" / "See Less"
   const toggleBio = (index) => {
     setExpanded((prev) => {
-      const newExpanded = [...prev];
-      newExpanded[index] = !newExpanded[index];
-      return newExpanded;
-    });
-  };
+      const newExpanded = [...prev]
+      newExpanded[index] = !newExpanded[index]
+      return newExpanded
+    })
+  }
 
   // Handle Next button
   const handleNext = () => {
     setStartIndex((prev) => {
-      const itemsPerPage = isSmallScreen ? 1 : 3;
-      const newIndex = prev + itemsPerPage;
-      return newIndex >= items.length ? 0 : newIndex;
-    });
-  };
+      const itemsPerPage = isMobile ? 1 : 3
+      const newIndex = prev + itemsPerPage
+      return newIndex >= items.length ? 0 : newIndex
+    })
+  }
 
   // Handle Previous button
   const handlePrev = () => {
     setStartIndex((prev) => {
-      const itemsPerPage = isSmallScreen ? 1 : 3;
-      const newIndex = prev - itemsPerPage;
-      return newIndex < 0 ? Math.max(0, items.length - itemsPerPage) : newIndex;
-    });
-  };
+      const itemsPerPage = isMobile ? 1 : 3
+      const newIndex = prev - itemsPerPage
+      return newIndex < 0 ? Math.max(0, items.length - itemsPerPage) : newIndex
+    })
+  }
 
   // Get visible items based on screen size
-  const itemsPerPage = isSmallScreen ? 1 : 3;
-  const visibleItems = items.slice(startIndex, startIndex + itemsPerPage);
+  const itemsPerPage = isMobile ? 1 : 3
+  const visibleItems = items.slice(startIndex, startIndex + itemsPerPage)
 
   return (
     <div
@@ -485,7 +485,7 @@ const Gallery = () => {
         width: "100vw",
         background: "#010B13",
         position: "relative",
-        padding: "80px 0",
+        padding: isMobile ? "80px 0 40px 0" : "60px 0", // Account for navbar on mobile
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -498,9 +498,9 @@ const Gallery = () => {
           style={{
             position: "absolute",
             top: "20%",
-            left: "10%",
-            width: "200px",
-            height: "200px",
+            left: isMobile ? "5%" : "10%",
+            width: isMobile ? "150px" : "200px",
+            height: isMobile ? "150px" : "200px",
             background: "rgba(255, 140, 0, 0.1)",
             borderRadius: "50%",
             filter: "blur(40px)",
@@ -510,9 +510,9 @@ const Gallery = () => {
           style={{
             position: "absolute",
             bottom: "20%",
-            right: "10%",
-            width: "300px",
-            height: "300px",
+            right: isMobile ? "5%" : "10%",
+            width: isMobile ? "200px" : "300px",
+            height: isMobile ? "200px" : "300px",
             background: "rgba(168, 85, 247, 0.1)",
             borderRadius: "50%",
             filter: "blur(60px)",
@@ -520,31 +520,42 @@ const Gallery = () => {
         />
       </div>
 
-      <div style={{ position: "relative", zIndex: 10, maxWidth: "1200px", width: "100%", padding: "0 1rem", boxSizing: "border-box" }}>
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          maxWidth: isMobile ? "100%" : "1200px",
+          width: "100%",
+          padding: isMobile ? "0 16px" : "0 1rem",
+          boxSizing: "border-box",
+        }}
+      >
         {/* Section Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: "60px" }}
+          style={{ textAlign: "center", marginBottom: isMobile ? "30px" : "40px" }}
         >
           <h2
             style={{
-              fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+              fontSize: isMobile ? "1.8rem" : "clamp(2rem, 4vw, 2.5rem)",
               fontWeight: "bold",
               color: "white",
-              margin: "0 0 16px",
+              margin: "0 0 12px 0",
+              lineHeight: "1.2",
             }}
           >
             Meet Our <span style={{ color: "#FF8C00" }}>Sign Dynasty</span>
           </h2>
           <p
             style={{
-              fontSize: "clamp(14px, 2vw, 18px)",
+              fontSize: isMobile ? "14px" : "clamp(14px, 2vw, 16px)",
               color: "rgba(255, 255, 255, 0.7)",
-              maxWidth: "600px",
+              maxWidth: isMobile ? "100%" : "600px",
               margin: "0 auto",
-              lineHeight: "1.6",
+              lineHeight: "1.5",
+              padding: isMobile ? "0 10px" : "0",
             }}
           >
             Discover the amazing journeys of our core community members and their success stories with Sign
@@ -556,50 +567,51 @@ const Gallery = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ marginBottom: "40px", textAlign: "center" }}
+          style={{ marginBottom: isMobile ? "24px" : "32px", textAlign: "center" }}
         >
           <form
             onSubmit={handleSearch}
             style={{
               display: "flex",
-              flexDirection: isSmallScreen ? "column" : "row",
+              flexDirection: isMobile ? "column" : "row",
               justifyContent: "center",
               alignItems: "center",
-              gap: "12px",
+              gap: isMobile ? "12px" : "16px",
+              maxWidth: isMobile ? "100%" : "500px",
+              margin: "0 auto",
             }}
           >
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              placeholder="Search by username, role, or description..."
+              placeholder="Search by username, role..."
               style={{
-                padding: "12px 20px",
-                width: isSmallScreen ? "100%" : "300px",
+                padding: isMobile ? "10px 16px" : "12px 20px",
+                width: isMobile ? "100%" : "280px",
                 borderRadius: "8px",
                 border: "1px solid rgba(255, 255, 255, 0.2)",
                 background: "rgba(255, 255, 255, 0.05)",
                 color: "white",
-                fontSize: "16px",
+                fontSize: isMobile ? "14px" : "16px",
                 outline: "none",
                 boxSizing: "border-box",
               }}
             />
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
               style={{
-                padding: "12px 20px",
+                padding: isMobile ? "10px 20px" : "12px 24px",
                 background: "#FF8C00",
                 borderRadius: "8px",
                 color: "white",
-                fontSize: "16px",
+                fontSize: isMobile ? "14px" : "16px",
                 fontWeight: "600",
                 border: "none",
                 cursor: "pointer",
-                width: isSmallScreen ? "100%" : "auto",
-                maxWidth: isSmallScreen ? "100%" : "200px",
+                width: isMobile ? "100%" : "auto",
                 boxSizing: "border-box",
               }}
             >
@@ -607,7 +619,7 @@ const Gallery = () => {
             </motion.button>
           </form>
           {searchMessage && (
-            <p style={{ color: "#FF8C00", marginTop: "12px", fontSize: "14px" }}>{searchMessage}</p>
+            <p style={{ color: "#FF8C00", marginTop: "8px", fontSize: isMobile ? "12px" : "14px" }}>{searchMessage}</p>
           )}
         </motion.div>
 
@@ -616,22 +628,22 @@ const Gallery = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: "center", marginBottom: "40px" }}
+          style={{ textAlign: "center", marginBottom: isMobile ? "24px" : "32px" }}
         >
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("#")}
             style={{
-              padding: "12px 24px",
+              padding: isMobile ? "10px 20px" : "12px 24px",
               background: "#FF8C00",
               borderRadius: "8px",
               color: "white",
-              fontSize: "16px",
+              fontSize: isMobile ? "14px" : "16px",
               fontWeight: "600",
               border: "none",
               cursor: "pointer",
-              boxShadow: "0 5px 15px rgba(255, 140, 0, 0.3)",
+              boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
               boxSizing: "border-box",
             }}
           >
@@ -644,223 +656,299 @@ const Gallery = () => {
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: isMobile ? "column" : "row",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: isMobile ? "center" : "flex-start",
               position: "relative",
-              gap: "24px",
-              flexWrap: isSmallScreen ? "nowrap" : "nowrap", // Ensure no wrapping on larger screens
-              minWidth: isSmallScreen ? "auto" : "calc(3 * 300px + 48px)", // Minimum width for 3 containers + gaps
+              gap: isMobile ? "16px" : "20px",
+              width: "100%",
             }}
           >
-            {/* Previous Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handlePrev}
-              style={{
-                position: isSmallScreen ? "relative" : "absolute",
-                left: isSmallScreen ? "auto" : "-60px",
-                top: isSmallScreen ? "auto" : "50%",
-                transform: isSmallScreen ? "none" : "translateY(-50%)",
-                padding: isSmallScreen ? "10px 16px" : "12px 20px",
-                background: "#FF8C00",
-                borderRadius: "50px",
-                color: "white",
-                fontSize: isSmallScreen ? "14px" : "16px",
-                fontWeight: "600",
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 5px 15px rgba(255, 140, 0, 0.3)",
-                zIndex: 10,
-                margin: isSmallScreen ? "10px 5px 10px 0" : "0",
-                boxSizing: "border-box",
-              }}
-            >
-              Prev
-            </motion.button>
+            {/* Previous Button - Mobile: Above cards, Desktop: Left side */}
+            {!isMobile && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handlePrev}
+                style={{
+                  position: "absolute",
+                  left: "-50px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  padding: "10px 16px",
+                  background: "#FF8C00",
+                  borderRadius: "50px",
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  border: "none",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
+                  zIndex: 10,
+                }}
+              >
+                Prev
+              </motion.button>
+            )}
 
-            {/* Gallery Items */}
-            {visibleItems.map((item, index) => {
-              const twitterHandle = getTwitterHandle(item.bio.description);
-              const twitterUrl = twitterHandle ? `https://x.com/${twitterHandle}` : null;
-
-              return (
-                <motion.div
-                  key={item.id}
-                  ref={(el) => (itemRefs.current[item.id] = el)}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.2, duration: 0.6 }}
-                  whileHover={{
-                    scale: 1.05,
-                    y: -10,
-                    transition: { duration: 0.3 },
-                  }}
+            {/* Mobile Navigation Buttons */}
+            {isMobile && (
+              <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handlePrev}
                   style={{
-                    position: "relative",
-                    borderRadius: "16px",
-                    overflow: "hidden",
-                    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.3)",
-                    background: "rgba(255, 255, 255, 0.05)",
-                    backdropFilter: "blur(10px)",
-                    padding: "10px",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    flex: isSmallScreen ? "0 0 100%" : "0 0 calc(33.333% - 16px)", // Adjusted width for gaps
-                    maxWidth: isSmallScreen ? "90%" : "calc(33.333% - 16px)",
-                    margin: isSmallScreen ? "0 auto" : "0",
-                    boxSizing: "border-box",
+                    padding: "8px 16px",
+                    background: "#FF8C00",
+                    borderRadius: "20px",
+                    color: "white",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
                   }}
                 >
-                  <div
+                  Previous
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleNext}
+                  style={{
+                    padding: "8px 16px",
+                    background: "#FF8C00",
+                    borderRadius: "20px",
+                    color: "white",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
+                  }}
+                >
+                  Next
+                </motion.button>
+              </div>
+            )}
+
+            {/* Gallery Items Container */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                gap: isMobile ? "16px" : "20px",
+                justifyContent: "center",
+                alignItems: isMobile ? "center" : "flex-start",
+                width: "100%",
+                maxWidth: isMobile ? "100%" : "900px",
+              }}
+            >
+              {/* Gallery Items */}
+              {visibleItems.map((item, index) => {
+                const twitterHandle = getTwitterHandle(item.bio.description)
+                const twitterUrl = twitterHandle ? `https://x.com/${twitterHandle}` : null
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    ref={(el) => (itemRefs.current[item.id] = el)}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    whileHover={
+                      isMobile
+                        ? {}
+                        : {
+                            scale: 1.02,
+                            y: -5,
+                            transition: { duration: 0.2 },
+                          }
+                    }
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "16px",
+                      position: "relative",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      boxShadow: "0 8px 24px rgba(0, 0, 0, 0.3)",
+                      background: "rgba(255, 255, 255, 0.05)",
+                      backdropFilter: "blur(10px)",
+                      padding: isMobile ? "12px" : "16px",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      width: isMobile ? "100%" : "280px",
+                      maxWidth: isMobile ? "350px" : "280px",
+                      margin: isMobile ? "0 auto" : "0",
+                      boxSizing: "border-box",
                     }}
                   >
-                    {/* Image Area */}
-                    <div style={{ width: "100%" }}>
-                      <img
-                        src={item.images[0]}
-                        alt={`Gallery item ${item.id}`}
-                        style={{
-                          width: "100%",
-                          height: isSmallScreen ? "250px" : "300px",
-                          objectFit: "cover",
-                          borderRadius: "12px",
-                          border: "1px solid rgba(255, 255, 255, 0.2)",
-                          boxSizing: "border-box",
-                        }}
-                        onError={(e) => {
-                          e.target.src =
-                            "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=800&h=600&fit=crop";
-                        }}
-                      />
-                    </div>
-
-                    {/* Bio/Profile Details */}
                     <div
                       style={{
-                        width: "100%",
-                        color: "white",
-                        textAlign: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: isMobile ? "12px" : "16px",
                       }}
                     >
-                      <h4 style={{ margin: "0 0 8px", fontSize: "18px", fontWeight: "600" }}>
-                        {item.bio.name}
-                      </h4>
-                      <p style={{ margin: "0 0 8px", fontSize: "14px", color: "rgba(255, 255, 255, 0.7)" }}>
-                        {item.bio.title}
-                      </p>
-                      <p
+                      {/* Image Area */}
+                      <div style={{ width: "100%" }}>
+                        <img
+                          src={item.images[0] || "/placeholder.svg"}
+                          alt={`Gallery item ${item.id}`}
+                          style={{
+                            width: "100%",
+                            height: isMobile ? "200px" : "220px",
+                            objectFit: "cover",
+                            borderRadius: "12px",
+                            border: "1px solid rgba(255, 255, 255, 0.2)",
+                            boxSizing: "border-box",
+                          }}
+                          onError={(e) => {
+                            e.target.src =
+                              "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=800&h=600&fit=crop"
+                          }}
+                        />
+                      </div>
+
+                      {/* Bio/Profile Details */}
+                      <div
                         style={{
-                          margin: "0 0 8px",
-                          fontSize: "14px",
-                          color: "rgba(255, 255, 255, 0.9)",
-                          display: "-webkit-box",
-                          WebkitLineClamp: expanded[startIndex + index] ? "unset" : 3,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          width: "100%",
+                          color: "white",
+                          textAlign: "center",
                         }}
                       >
-                        {item.bio.description}
-                      </p>
-                      {expanded[startIndex + index] && item.bio.highlights?.length > 0 && (
-                        <ul
+                        <h4
                           style={{
-                            margin: "0 0 8px",
-                            paddingLeft: "20px",
-                            fontSize: "14px",
-                            color: "rgba(255, 255, 255, 0.9)",
-                            textAlign: "left",
-                            listStyleType: "disc",
+                            margin: "0 0 6px 0",
+                            fontSize: isMobile ? "16px" : "18px",
+                            fontWeight: "600",
+                            lineHeight: "1.2",
                           }}
                         >
-                          {item.bio.highlights.map((highlight, i) => (
-                            <li key={i}>{highlight}</li>
-                          ))}
-                        </ul>
-                      )}
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => toggleBio(startIndex + index)}
-                        style={{
-                          padding: "6px 12px",
-                          background: "#FF8C00",
-                          borderRadius: "8px",
-                          color: "white",
-                          fontSize: "14px",
-                          border: "none",
-                          cursor: "pointer",
-                          marginTop: "8px",
-                          width: "100%",
-                          boxSizing: "border-box",
-                        }}
-                      >
-                        {expanded[startIndex + index] ? "See Less" : "See More"}
-                      </motion.button>
-                      {twitterUrl && (
-                        <motion.a
-                          href={twitterUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                          {item.bio.name}
+                        </h4>
+                        <p
                           style={{
-                            display: "block",
-                            padding: "6px 12px",
+                            margin: "0 0 8px 0",
+                            fontSize: isMobile ? "12px" : "13px",
+                            color: "rgba(255, 255, 255, 0.7)",
+                            lineHeight: "1.3",
+                          }}
+                        >
+                          {item.bio.title}
+                        </p>
+                        <p
+                          style={{
+                            margin: "0 0 8px 0",
+                            fontSize: isMobile ? "12px" : "13px",
+                            color: "rgba(255, 255, 255, 0.9)",
+                            display: "-webkit-box",
+                            WebkitLineClamp: expanded[startIndex + index] ? "unset" : 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            lineHeight: "1.4",
+                          }}
+                        >
+                          {item.bio.description}
+                        </p>
+                        {expanded[startIndex + index] && item.bio.highlights?.length > 0 && (
+                          <ul
+                            style={{
+                              margin: "0 0 8px 0",
+                              paddingLeft: "16px",
+                              fontSize: isMobile ? "11px" : "12px",
+                              color: "rgba(255, 255, 255, 0.9)",
+                              textAlign: "left",
+                              listStyleType: "disc",
+                              lineHeight: "1.4",
+                            }}
+                          >
+                            {item.bio.highlights.map((highlight, i) => (
+                              <li key={i} style={{ marginBottom: "4px" }}>
+                                {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        <motion.button
+                          whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => toggleBio(startIndex + index)}
+                          style={{
+                            padding: isMobile ? "6px 12px" : "8px 16px",
                             background: "#FF8C00",
                             borderRadius: "8px",
                             color: "white",
-                            fontSize: "14px",
-                            fontWeight: "600",
-                            textDecoration: "none",
+                            fontSize: isMobile ? "12px" : "13px",
+                            border: "none",
                             cursor: "pointer",
                             marginTop: "8px",
                             width: "100%",
-                            textAlign: "center",
                             boxSizing: "border-box",
                           }}
                         >
-                          Follow on Twitter
-                        </motion.a>
-                      )}
+                          {expanded[startIndex + index] ? "See Less" : "See More"}
+                        </motion.button>
+                        {twitterUrl && (
+                          <motion.a
+                            href={twitterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            style={{
+                              display: "block",
+                              padding: isMobile ? "6px 12px" : "8px 16px",
+                              background: "#FF8C00",
+                              borderRadius: "8px",
+                              color: "white",
+                              fontSize: isMobile ? "12px" : "13px",
+                              fontWeight: "600",
+                              textDecoration: "none",
+                              cursor: "pointer",
+                              marginTop: "8px",
+                              width: "100%",
+                              textAlign: "center",
+                              boxSizing: "border-box",
+                            }}
+                          >
+                            Follow on Twitter
+                          </motion.a>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                )
+              })}
+            </div>
 
-            {/* Next Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleNext}
-              style={{
-                position: isSmallScreen ? "relative" : "absolute",
-                right: isSmallScreen ? "auto" : "-60px",
-                top: isSmallScreen ? "auto" : "50%",
-                transform: isSmallScreen ? "none" : "translateY(-50%)",
-                padding: isSmallScreen ? "10px 16px" : "12px 20px",
-                background: "#FF8C00",
-                borderRadius: "50px",
-                color: "white",
-                fontSize: isSmallScreen ? "14px" : "16px",
-                fontWeight: "600",
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 5px 15px rgba(255, 140, 0, 0.3)",
-                zIndex: 10,
-                margin: isSmallScreen ? "10px 0 10px 5px" : "0",
-                boxSizing: "border-box",
-              }}
-            >
-              Next
-            </motion.button>
+            {/* Next Button - Desktop only */}
+            {!isMobile && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleNext}
+                style={{
+                  position: "absolute",
+                  right: "-50px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  padding: "10px 16px",
+                  background: "#FF8C00",
+                  borderRadius: "50px",
+                  color: "white",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  border: "none",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
+                  zIndex: 10,
+                }}
+              >
+                Next
+              </motion.button>
+            )}
           </div>
         )}
 
@@ -870,16 +958,16 @@ const Gallery = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: "8px",
-              marginTop: "30px",
+              gap: "6px",
+              marginTop: isMobile ? "20px" : "24px",
             }}
           >
             {Array.from({ length: Math.ceil(items.length / itemsPerPage) }).map((_, index) => (
               <div
                 key={index}
                 style={{
-                  width: "8px",
-                  height: "8px",
+                  width: isMobile ? "6px" : "8px",
+                  height: isMobile ? "6px" : "8px",
                   borderRadius: "50%",
                   background: index * itemsPerPage === startIndex ? "#FF8C00" : "rgba(255, 255, 255, 0.3)",
                   cursor: "pointer",
@@ -897,14 +985,14 @@ const Gallery = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
-            marginTop: "60px",
+            marginTop: isMobile ? "40px" : "50px",
             textAlign: "center",
             background: "rgba(255, 255, 255, 0.05)",
             backdropFilter: "blur(10px)",
             borderRadius: "16px",
-            padding: isSmallScreen ? "24px" : "32px",
+            padding: isMobile ? "20px" : "28px",
             border: "1px solid rgba(255, 255, 255, 0.1)",
-            maxWidth: isSmallScreen ? "90vw" : "600px",
+            maxWidth: isMobile ? "100%" : "500px",
             marginLeft: "auto",
             marginRight: "auto",
             boxSizing: "border-box",
@@ -912,41 +1000,42 @@ const Gallery = () => {
         >
           <h3
             style={{
-              fontSize: "clamp(1.4rem, 3vw, 2rem)",
+              fontSize: isMobile ? "1.3rem" : "clamp(1.4rem, 3vw, 1.8rem)",
               fontWeight: "bold",
               color: "white",
-              margin: "0 0 16px",
+              margin: "0 0 12px 0",
+              lineHeight: "1.2",
             }}
           >
             Track Your SBT
           </h3>
           <p
             style={{
-              fontSize: "16px",
+              fontSize: isMobile ? "14px" : "15px",
               color: "rgba(255, 255, 255, 0.7)",
-              margin: "0 0 24px",
-              lineHeight: "1.6",
+              margin: "0 0 20px 0",
+              lineHeight: "1.5",
             }}
           >
-            Monitor your Sign's Soulbound Tokens (SBTs) with our dedicated tracker. Stay updated on your contributions and
-            achievements within the Sign ecosystem.
+            Monitor your Sign's Soulbound Tokens (SBTs) with our dedicated tracker. Stay updated on your contributions
+            and achievements within the Sign ecosystem.
           </p>
           <motion.a
             href="https://mytrack-alpha.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
             whileTap={{ scale: 0.95 }}
             style={{
               display: "inline-block",
-              padding: "12px 24px",
+              padding: isMobile ? "10px 20px" : "12px 24px",
               background: "#FF8C00",
               borderRadius: "8px",
               color: "white",
-              fontSize: "16px",
+              fontSize: isMobile ? "14px" : "16px",
               fontWeight: "600",
               textDecoration: "none",
-              boxShadow: "0 5px 15px rgba(255, 140, 0, 0.3)",
+              boxShadow: "0 4px 12px rgba(255, 140, 0, 0.3)",
               cursor: "pointer",
               boxSizing: "border-box",
             }}
@@ -956,7 +1045,7 @@ const Gallery = () => {
         </motion.div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Gallery;
+export default Gallery

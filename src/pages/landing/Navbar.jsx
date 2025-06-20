@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { User, Menu, X } from 'lucide-react'
+import { User, Menu, X } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Check if screen is mobile size
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768)
@@ -66,17 +65,18 @@ const Navbar = () => {
             transition={{ type: "spring", stiffness: 400 }}
             style={{ cursor: "pointer" }}
           >
-            <h1
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: isMobile ? "16px" : "20px",
-                letterSpacing: "1px",
-                margin: 0,
-              }}
-            >
-              SIGN BROCHURE
-            </h1>
+            <Link to="/">
+              <img
+                src="/LOGO1.jpeg"
+                alt="Sign Brochure Logo"
+                style={{
+                  height: isMobile ? "40px" : "50px",
+                  width: "auto",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                }}
+              />
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation Links */}
@@ -146,7 +146,7 @@ const Navbar = () => {
                     }}
                     onMouseEnter={(e) => {
                       e.target.style.backgroundColor = "rgba(255, 255, 255, 0.15)"
-                      e.target.style.color = "white"
+                      e.target.style.color = "white" // Fixed typo here
                     }}
                     onMouseLeave={(e) => {
                       if (item !== "Home") {
@@ -165,7 +165,7 @@ const Navbar = () => {
                       {item}
                     </Link>
                   </motion.div>
-                ),
+                )
               )}
             </div>
           )}
@@ -215,26 +215,28 @@ const Navbar = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "40px",
-                  height: "40px",
-                  border: "1px solid white",
-                  borderRadius: "8px",
-                  backgroundColor: "#FF8C00", // Orange background
+                  width: "48px",
+                  height: "48px",
+                  border: "none",
+                  borderRadius: "10px",
+                  backgroundColor: "#FF8C00",
                   color: "white",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+                  boxShadow: "0 3px 10px rgba(0, 0, 0, 0.3)",
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = "#FF7F00"
-                  e.target.style.transform = "scale(1.05)"
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = "#FF8C00"
-                  e.target.style.transform = "scale(1)"
                 }}
               >
-                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {isMobileMenuOpen ? (
+                  <X size={28} strokeWidth={2.5} />
+                ) : (
+                  <Menu size={28} strokeWidth={2.5} />
+                )}
               </motion.button>
             )}
           </div>

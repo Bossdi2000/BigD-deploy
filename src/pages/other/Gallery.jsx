@@ -348,9 +348,9 @@ const galleryItems = [
     },
   },
   {
-    id: 23,
+    id: 24,
     images: [
-      "/OG23.jpg",
+      "/OG24.jpeg",
       "https://images.unsplash.com/photo-2507842217343-583bb7270b66?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=600&fit=crop",
     ],
@@ -546,7 +546,7 @@ const Gallery = () => {
               lineHeight: "1.2",
             }}
           >
-            Meet Our <span style={{ color: "#FF8C00" }}>Sign Dynasty</span>
+            Meet Our <span style={{ color: "#FF8C00" }}>Orange Dynasty</span>
           </h2>
           <p
             style={{

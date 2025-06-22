@@ -39,7 +39,7 @@ const galleryItems = [
       name: "Hime Sama",
       title: "Queen of Sign",
       description:
-        "Hime Sama (@himeSama_01) known as the 'Queen of Sign,' is a standout figure in the Sign Protocol community. As an early adopter and dedicated supporter, she blends mystery, humor, and leadership to inspire global engagement. She shares key updates on the Sign SuperApp, making complex features like Orange Points easy to understand. Himesama also leads fun community challenges, promotes international unity—especially with countries like Bangladesh and Japan—and keeps the vibe strong across platforms like Telegram.",
+        "Hime Sama (@himeSama_01) known as the 'Queen of Sign,' She's a standout figure in the Sign Protocol community. As an early adopter and dedicated supporter, she blends mystery, humor, and leadership to inspire global engagement. She shares key updates on the Sign SuperApp, making complex features like Orange Points easy to understand. Himesama also leads fun community challenges, promotes international unity—especially with countries like Bangladesh and Japan—and keeps the vibe strong across platforms like Telegram.",
       highlights: [
         "With her signature sunglasses, orange heart 🧡, and approachable style, Himesama plays a vital role in building a vibrant, inclusive Sign Dynasty.",
       ],
@@ -116,7 +116,7 @@ const galleryItems = [
       name: "Haikeys",
       title: "Core Presence of Sign",
       description:
-        "Haikeys (@Haikeystweett) is a core presence in the Sign Protocol ecosystem, known for turning energy into momentum. Through consistent engagement on X, Haikeys uplifts the $SIGN token, sparks meaningful conversations, and energizes the community with events like Orange Hour. Their content blends education with enthusiasm, helping new users understand the value of decentralized identity while strengthening Sign's cultural identity.",
+        "Haikeys (@Haikeystweett) is a core presence in the Sign Protocol ecosystem, known for turning energy into momentum. Through consistent engagement on X, Haikeys uplifts the $SIGN token, sparks meaningful conversations, and energizes the community with events like Orange Hour. his content blends education with enthusiasm, helping new users understand the value of decentralized identity while strengthening Sign's cultural identity.",
       highlights: [
         "A creative force in the space, Haikeys embodies what it means to lead from within the community—authentic, committed, and always amplifying the orange signal.",
       ],
@@ -201,7 +201,7 @@ const galleryItems = [
       name: "Jerry Z",
       title: "Crypto Visionary of Sign",
       description:
-        "Jerry Z (@Jerry_ZZQ) a long-time crypto investor and passionate decentralization advocate, is known for his articulate, balanced takes on emerging Web3 protocols. Since discovering Sign in 2024, he has consistently highlighted its potential to disrupt centralized social platforms, praising its community-first tokenomics and cross-chain vision. With regular posts analyzing $SIGN's roadmap, AMAs with the team, and referral program boosts, Jerry's influence bridges both technical insight and community enthusiasm.",
+        "Jerry Z (@Jerry_ZZQ) a long-time crypto investor and passionate decentralization advocate, He's known for his articulate, balanced takes on emerging Web3 protocols. Since discovering Sign in 2024, he has consistently highlighted its potential to disrupt centralized social platforms, praising its community-first tokenomics and cross-chain vision. With regular posts analyzing $SIGN's roadmap, AMAs with the team, and referral program boosts, Jerry's influence bridges both technical insight and community enthusiasm.",
       highlights: [
         "His authenticity and transparency—openly sharing his investment journey with $SIGN—make him a trusted voice among early adopters.",
       ],
@@ -248,7 +248,7 @@ const galleryItems = [
       name: "DvM",
       title: "Developer Advocate of Sign",
       description:
-        "DvM (@DvmOnChain) focuses on blockchain infrastructure and developer tools. They engage with Sign Protocol by exploring its on-chain attestation systems, testing TokenTable integrations, and contributing technical insights. Passionate about Sign's scalability, they often share feedback, highlight developer bounties, and support its open-source growth. Sign's 300M+ attestations prove its real-world value—and DvmOnChain is bullish on where it's headed.",
+        "DvM (@DvmOnChain) focuses on blockchain infrastructure and developer tools. He engage with Sign Protocol by exploring its on-chain attestation systems, testing TokenTable integrations, and contributing technical insights. Passionate about Sign's scalability, He often share feedback, highlight developer bounties, and support its open-source growth. Sign's 300M+ attestations prove its real-world value—and DvmOnChain is bullish on where it's headed.",
       highlights: [
         "Contributes technical insights and feedback to enhance Sign's scalability.",
         "Promotes developer bounties and open-source growth.",
@@ -266,7 +266,7 @@ const galleryItems = [
       name: "Asta",
       title: "Crypto Enthusiast of Sign",
       description:
-        "Asta (@_AstaCrypt) is passionate about crypto, security, and user-friendly tools in Web3. They support Sign Protocol by using and promoting features like TokenTable and SignPass, sharing their experience signing on-chain agreements, emphasizing the ease and potential of $SIGN, and participating in community events. Their goal is to help more users discover Sign's power and accessibility.",
+        "Asta (@_AstaCrypt) is passionate about crypto, security, and user-friendly tools in Web3. He support Sign Protocol by using and promoting features like TokenTable and SignPass, sharing his experience signing on-chain agreements, emphasizing the ease and potential of $SIGN, and participating in community events. His goal is to help more users discover Sign's power and accessibility.",
       highlights: [
         "Promotes TokenTable and SignPass through hands-on use.",
         "Engages in community events to boost Sign's accessibility.",
@@ -303,7 +303,7 @@ const galleryItems = [
       name: "BigD",
       title: "Genius of Sign",
       description:
-        "BigD (@_BigDe) known as the Genius of Sign, takes pride in being part of the heartbeat behind this movement. With a mix of creativity, technical skill, and community energy, they help shape what Sign is and where it's headed. Whether building quietly or lighting up the timeline with orange fire, their commitment is constant. They don't just support Sign—they live it, breathe it, and push it forward every day.",
+        "BigD (@_BigDe) known as the Genius of Sign, takes pride in being part of the heartbeat behind this movement. With a mix of creativity, technical skill, and community energy, He help shape what Sign is and where it's headed. Whether building quietly or lighting up the timeline with orange fire, their commitment is constant. He don't just support Sign—they live it, breathe it, and push it forward every day.",
       highlights: [
         "Shapes Sign's future with creativity and technical expertise.",
         "Drives community energy with consistent engagement.",

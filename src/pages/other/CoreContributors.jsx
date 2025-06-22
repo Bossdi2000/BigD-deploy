@@ -59,7 +59,7 @@ const CoreContributors = () => {
 
   const founders = [
     {
-      name: "Xin Jian",
+      name: "Xin Yan",
       role: "CEO & Co-Founder",
       description:
         "A visionary in decentralized infrastructure, Xin brings his experience from Fundamental Labs and Huobi Group to lead EthSign's strategic direction. Under his leadership, EthSign bridges Web2 familiarity with Web3 innovation, securing agreements through verifiable, decentralized tools.",
